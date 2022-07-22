@@ -1,5 +1,7 @@
 import Task from "./Task";
 import React from "react";
+import Logout from "./Logout";
+
 
 const Tasks = ({ tasks, onDelete, onToggle }) => {
   return (
@@ -12,7 +14,10 @@ const Tasks = ({ tasks, onDelete, onToggle }) => {
           onToggle={onToggle}
         />
       ))}
+      <Logout/>
     </>
+    
+    
   );
 };
 

@@ -7,6 +7,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
+import api from "./shared/api";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState();
@@ -21,9 +22,11 @@ function App() {
 
   // fetch tasks
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:3001/tasks");
+    // const res = await fetch("http://localhost:3001/tasks");
+    // const data = await res.json();
+    const res = await api("GET", "/tasks")
     const data = await res.json();
-
+    
     return data;
   };
 

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import api from "../shared/api";
 
 const AddTask = ({ onAdd }) => {
   const [text, setText] = useState("");
@@ -10,26 +12,32 @@ const AddTask = ({ onAdd }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const {data: task} = await axios({
-      method: "POST",
-      url: "http://localhost:3001/app",
-      data: {
-        text,
-        day,
-        reminder,
-      },
+    // const {data: task} = await axios({
+    //   method: "POST",
+    //   url: "http://localhost:3001/app",
+    //   data: {
+    //     text,
+    //     day,
+    //     reminder,
+    //   },
+    // });
+
+    const { data: task } = await api("POST", "/app", {
+      text,
+      day,
+      reminder,
     });
-    onAdd(task) 
 
+    onAdd(task);
 
-    if(!text){
-        alert('please add a task')
-        return
+    if (!text) {
+      alert("please add a task");
+      return;
     }
 
-    setText('')
-    setDay('')
-    setReminder(false)
+    setText("");
+    setDay("");
+    setReminder(false);
   };
 
   return (
