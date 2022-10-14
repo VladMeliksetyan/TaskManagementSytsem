@@ -1,32 +1,36 @@
 import { useState } from "react";
 import React from "react";
-import axios from "axios";
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import api from "../shared/api";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegitered, setIsLogined] = useState("");
-  const [user, setUser] = useState({});
+
+  const navigate = useNavigate()
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await axios({
-      method: "POST",
-      url: "http://localhost:3001/register",
-      data: {
+   try {
+    const {status} = await api(
+      "POST",
+      "/register",
+      {
         username,
         email,
         password,
       },
-    });
-    setUser(data);
-    // save session id in the cookies
+    );
+    if(status==201) navigate('/login');
+     
+   } catch (error) {
+    alert("Email already used");
+   }
   };
-  if (user.password) {
-    return <Navigate to="/login" />;
-  }
 
   return (
     <form
@@ -69,7 +73,13 @@ const Register = () => {
         />
       </div>
 
-      <input type="submit" disabled={isRegitered} value="Register" className="btn btn-block" />
+      <input
+        type="submit"
+        value="Register"
+        className="btn btn-block"
+      />
+      <h4>Already have an account</h4>
+      <Link to={"/login"}>Login</Link>
     </form>
   );
 };
